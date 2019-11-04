@@ -875,58 +875,56 @@ public class JFXPanelAutomaticFaceDetection extends JFXPanel {
         
     }//visibleAOI
     
-    public void increaseAOIWidth (int i){
+     public void increaseAOIWidth (int i){
         
         int newIncreaseWidth;
         
         if(i>this.totalIncreaseWidth||i<this.totalIncreaseWidth){
-            
             newIncreaseWidth=i;
             i = i-this.totalIncreaseWidth;
-            this.totalIncreaseHeigth=newIncreaseWidth;
+            this.totalIncreaseWidth=newIncreaseWidth;
         
         }
-        
-        if(this.aoiMap==null){}
-        
-        else{
-            try{
-            Double dWidth = new Double (i);
-            dWidth = dWidth/this.realWidth;
 
-            for(AOI aoi: this.aoiMap.getAOIs()){
-                
-                Double dWidthX = this.aoiMap.getAOIs().get(aoi.getId()).getRelativeX()-dWidth;
-                Double dWidthWidth = dWidth+dWidth+this.aoiMap.getAOIs().get(aoi.getId()).getRelativeWidth();
-                
-                if (Double.compare(dWidthX,0.0)>0 && Double.compare(dWidthWidth,1.0)<0){
-                
-                    this.aoiMap.getAOIs().get(aoi.getId()).setRelativeSize(
-                            dWidthWidth,
-                            this.aoiMap.getAOIs().get(aoi.getId()).getReltiveHeight());
-                    this.aoiMap.getAOIs().get(aoi.getId()).setRelativeXY(
-                            dWidthX,
-                            this.aoiMap.getAOIs().get(aoi.getId()).getRelativeY());
-                    
-                }//if
-                
-            }//for
-            }catch(Exception e){ 
-                    this.aoiMap.saveChanges();
-                    this.aoiMap.cleanMap();
-                    this.aoiMap.repaint();
-                    this.repaint();
-            }
-                                
+       if(this.aoiMap==null){}
+       
+       else{
+            try{
+                Double dWidth = new Double (i);
+                dWidth = dWidth/this.realWidth;
+
+                for(AOI aoi: this.aoiMap.getAOIs()){
+
+                    Double dWidthX = this.aoiMap.getAOIs().get(aoi.getId()).getRelativeX()-dWidth;
+                    Double dWidthWidth = dWidth+dWidth+this.aoiMap.getAOIs().get(aoi.getId()).getRelativeWidth();
+
+                    if (Double.compare(dWidthX,0.0)>0 && Double.compare(dWidthWidth,1.0)<0){
+
+                        this.aoiMap.getAOIs().get(aoi.getId()).setRelativeSize(
+                                dWidthWidth,
+                                this.aoiMap.getAOIs().get(aoi.getId()).getReltiveHeight());
+                        this.aoiMap.getAOIs().get(aoi.getId()).setRelativeXY(
+                                dWidthX,
+                                this.aoiMap.getAOIs().get(aoi.getId()).getRelativeY());
+
+                    }//if
+
+                }//for
+            }catch(Exception e){
+                this.aoiMap.saveChanges();
+                this.aoiMap.cleanMap();
+                this.aoiMap.repaint();
+                this.repaint();
+            }                      
             this.aoiMap.saveChanges();
             this.aoiMap.cleanMap();
             this.aoiMap.repaint();
             this.repaint();
             
-        }//if
+        }//if*/
         
     }//increaseAOIWidth
-    
+     
     public void increaseAOIHeigth (int i){
         
         int newIncreaseHeight;
@@ -940,6 +938,7 @@ public class JFXPanelAutomaticFaceDetection extends JFXPanel {
         }
         
         if(this.aoiMap==null){}
+        
         else{
             try{
             Double dHeight = new Double (i);
@@ -958,24 +957,23 @@ public class JFXPanelAutomaticFaceDetection extends JFXPanel {
                     this.aoiMap.getAOIs().get(aoi.getId()).setRelativeXY(
                             this.aoiMap.getAOIs().get(aoi.getId()).getRelativeX(),
                             dHeightX);
-
+                
                 }//if
                 
             }//for
-            }catch(Exception e){    
-                    this.aoiMap.saveChanges();
-                    this.aoiMap.cleanMap();
-                    this.aoiMap.repaint();
-                    this.repaint();
+            }catch(Exception e){
+                this.aoiMap.saveChanges();
+                this.aoiMap.cleanMap();
+                this.aoiMap.repaint();
+                this.repaint();
             }
-                                
             this.aoiMap.saveChanges();
             this.aoiMap.cleanMap();
             this.aoiMap.repaint();
             this.repaint();
 
         }//if
-    
+        
     }//increaseAOIHeight
     
     public Image matToImage(Mat m){
