@@ -740,51 +740,54 @@ public class JFXPanelAutomaticFaceDetection extends JFXPanel {
     private int totalIncreaseHeigth;
     
     public void setVideoFile(String videoFile) {
-        this.videoFile = videoFile;
-        this.src = new Mat();
-        Mat video = new Mat();
-        VideoCapture cap = new VideoCapture();
-        cap.open(videoFile);
-        boolean read = cap.read(video);
-        Imgcodecs.imwrite("img.jpg", video);
-        this.src = Imgcodecs.imread("img.jpg");
-            
-        try{File file = new File ("img.jpg");
-            if(file.delete()){}
-        }catch(Exception e){
+        if(videoFile!=null){
+            this.videoFile = videoFile;
+            this.src = new Mat();
+            Mat video = new Mat();
+            VideoCapture cap = new VideoCapture();
+            cap.open(videoFile);
+            boolean read = cap.read(video);
+            Imgcodecs.imwrite("img.jpg", video);
+            this.src = Imgcodecs.imread("img.jpg");
+
+            try{File file = new File ("img.jpg");
+                if(file.delete()){}
+            }catch(Exception e){
+            }
         }
     }
     
     public void automaticDetection(){
         
-        
-        imageMaxX = src.size().width;
-        imageMaxY= src.size().height;
-    
-        CascadeClassifier cascadeFaceClassifier = new CascadeClassifier("haarcascade_frontalface_default.xml");
+        if(this.videoFile!=null){
+            imageMaxX = src.size().width;
+            imageMaxY= src.size().height;
 
-	Mat frameCapture = new Mat();
-        frameCapture = src.clone();
-        MatOfRect faces = new MatOfRect();
-        
-        cascadeFaceClassifier.detectMultiScale(frameCapture, faces);	
-        
-	for (Rect rect : faces.toArray()) {
-            list.add(rect);
-            
-	}//for
-        
-        for(int i=0;i<list.size();i++){
-                createAutomaticAOI(list.get(i).x, list.get(i).y,list.get(i).width,list.get(i).height);
-        }//for
-        this.repaint();   
-        list.removeAll(list);
-        
-        if (this.aoiMap.getAOIs() != null & this.aoiMap.getAOIFile() != null) {
-            if (this.aoiMap.getAOIs().size() > 0) {
-                this.aoiMap.aoisToCsvFile(this.aoiMap.getAOIFile());
+            CascadeClassifier cascadeFaceClassifier = new CascadeClassifier("haarcascade_frontalface_default.xml");
+
+            Mat frameCapture = new Mat();
+            frameCapture = src.clone();
+            MatOfRect faces = new MatOfRect();
+
+            cascadeFaceClassifier.detectMultiScale(frameCapture, faces);	
+
+            for (Rect rect : faces.toArray()) {
+                list.add(rect);
+
+            }//for
+
+            for(int i=0;i<list.size();i++){
+                    createAutomaticAOI(list.get(i).x, list.get(i).y,list.get(i).width,list.get(i).height);
+            }//for
+            this.repaint();   
+            list.removeAll(list);
+
+            if (this.aoiMap.getAOIs() != null & this.aoiMap.getAOIFile() != null) {
+                if (this.aoiMap.getAOIs().size() > 0) {
+                    this.aoiMap.aoisToCsvFile(this.aoiMap.getAOIFile());
+                }//if
             }//if
-        }//if
+        }
     
     
     }//automaticDetection
